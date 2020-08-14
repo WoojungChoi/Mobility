@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 """
     Title : dangerdriving.py
     Comment : 급가속 급감속 모듈
@@ -7,53 +9,72 @@
 
 import pandas as pd
 
-def dangerdriving(dataset, type):
-    """급가속 = AC(Accelerate), 급출발 = QS(Quick Start), 급감속 = DC(Decelerate), 급정지 = SS(Sudden Stop)
-    급차로변경 = LC(Lane Change)  급앞지르기 = OT(Overtaking) 급회전 = ST(Sharp Turn) 급유턴 = UT(U-Tern)"""
+class dangerdriving:
+    """
+    8대 위험운전 항목
+    급가속 = AC(Accelerate), 급출발 = QS(Quick Start), 급감속 = DC(Decelerate), 급정지 = SS(Sudden Stop)
+    급차로변경 = LC(Lane Change)  급앞지르기 = OT(Overtaking) 급회전 = ST(Sharp Turn) 급유턴 = UT(U-Tern)
+
+    초당 회전각 60도 이상 예외처리
+    속도 0이상에서 좌표값이 변경되지 않을 시 터널로 판정하여 예외처리
+    운행기록장치에서 GPS 오류코드 수신 시 예외처리
+
+    """
 
     """vehicle type truck bus taxi"""
 
-    if type=='truck':
-        AC = 5
-        QS = 6
-        DC = 8
-        SS = 8
-        LC = 6
-        OT = 6
-        ST_SPEED = 20
-        ST_TIME = 4
-        UT_SPEED = 15
-        UT_TIME = 8
-    elif type =='bus':
-        AC = 6
-        QS = 8
-        DC = 9
-        SS = 9
-        LC = 8
-        OT = 8
-        ST_SPEED = 25
-        ST_TIME = 4
-        UT_SPEED = 20
-        UT_TIME = 8
-    elif type =='taxi':
-        AC = 8
-        QS = 10
-        DC = 14
-        SS = 14
-        LC = 10
-        OT = 10
-        ST_SPEED = 30
-        ST_TIME = 3
-        UT_SPEED = 25
-        UT_TIME = 6
-    else:
-        print('잘못된 vehicle type 형식입니다.\n truck bus taxi 중에서 선택해주세요')
+    def __init__(self, dataset, type):
+        self.dataset= dataset
+        self.type = type
+        self.dangerlist = []
 
-    #초당 회전각 60도 이상 예외처리
-    #속도 0이상에서 좌표값이 변경되지 않을 시 터널로 판정하여 예외처리
-    #운행기록장치에서 GPS 오류코드 수신 시 예외처리
+        if type == 'truck':
+            AC = 5
+            QS = 6
+            DC = 8
+            SS = 8
+            LC = 6
+            OT = 6
+            ST_SPEED = 20
+            ST_TIME = 4
+            UT_SPEED = 15
+            UT_TIME = 8
 
-    dangerlist = []
+        elif type == 'bus':
+            AC = 6
+            QS = 8
+            DC = 9
+            SS = 9
+            LC = 8
+            OT = 8
+            ST_SPEED = 25
+            ST_TIME = 4
+            UT_SPEED = 20
+            UT_TIME = 8
+
+        elif type == 'taxi':
+            AC = 8
+            QS = 10
+            DC = 14
+            SS = 14
+            LC = 10
+            OT = 10
+            ST_SPEED = 30
+            ST_TIME = 3
+            UT_SPEED = 25
+            UT_TIME = 6
+
+        else:
+            print('잘못된 vehicle type 형식입니다.\n truck bus taxi 중에서 선택해주세요')
+
+
+    def AC(self):
+
+        i = 0
+        j = 0
+        outbool = False
+
+
 
 
 

@@ -25,6 +25,7 @@ class dangerdriving:
 
     def __init__(self, dataset, type):
         self.dataset= dataset
+        self.len = len(dataset)
         self.type = type
         self.dangerlist = []
 
@@ -63,16 +64,20 @@ class dangerdriving:
             ST_TIME = 3
             UT_SPEED = 25
             UT_TIME = 6
-
         else:
             print('잘못된 vehicle type 형식입니다.\n truck bus taxi 중에서 선택해주세요')
 
-
     def AC(self):
-
         i = 0
         j = 0
         outbool = False
+
+        for i in range(self.dataset):
+            pass
+
+
+
+
 
 
 

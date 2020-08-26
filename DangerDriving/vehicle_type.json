@@ -1,0 +1,38 @@
+{
+  "TRUCK": {
+        "AC": 5,
+        "OS": 6,
+        "DC": 8,
+        "SS": 8,
+        "LC": 6,
+        "OT": 6,
+        "ST_SPEED": 20,
+        "ST_TIME": 4,
+        "UT_SPEED": 15,
+        "UT_TIME": 8
+  },
+  "BUS": {
+        "AC": 6,
+        "OS": 8,
+        "DC": 9,
+        "SS": 9,
+        "LC": 8,
+        "OT": 8,
+        "ST_SPEED": 25,
+        "ST_TIME": 4,
+        "UT_SPEED": 20,
+        "UT_TIME": 8
+  },
+  "TAXI": {
+        "AC": 8,
+        "OS": 10,
+        "DC": 14,
+        "SS": 14,
+        "LC": 10,
+        "OT": 10,
+        "ST_SPEED": 30,
+        "ST_TIME": 3,
+        "UT_SPEED": 25,
+        "UT_TIME": 6
+  }
+}

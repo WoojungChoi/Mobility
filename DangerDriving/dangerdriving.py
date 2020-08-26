@@ -12,21 +12,32 @@ import pandas as pd
 class dangerdriving:
     """
     8대 위험운전 항목
-    급가속 = AC(Accelerate), 급출발 = QS(Quick Start), 급감속 = DC(Decelerate), 급정지 = SS(Sudden Stop)
-    급차로변경 = LC(Lane Change)  급앞지르기 = OT(Overtaking) 급회전 = ST(Sharp Turn) 급유턴 = UT(U-Tern)
+    1)급가속 = AC(Accelerate)
+    2)급출발 = QS(Quick Start)
+    3)급감속 = DC(Decelerate)
+    4)급정지 = SS(Sudden Stop)
+    5)급차로변경 = LC(Lane Change)
+    6)급앞지르기 = OT(Overtaking)
+    7)급회전 = ST(Sharp Turn)
+    8)급유턴 = UT(U-Tern)
 
+    etc.
     초당 회전각 60도 이상 예외처리
     속도 0이상에서 좌표값이 변경되지 않을 시 터널로 판정하여 예외처리
     운행기록장치에서 GPS 오류코드 수신 시 예외처리
-
     """
 
-    """vehicle type truck bus taxi"""
+    """vehicle type: TRUCK / BUS / TAXI"""
 
     def __init__(self, dataset, type):
+        #운행 데이터셋
         self.dataset= dataset
         self.len = len(dataset)
+
+        #차량 타입
         self.type = type
+
+        #위험항목 저장 리스트
         self.dangerlist = []
 
         if type == 'truck':
@@ -74,18 +85,6 @@ class dangerdriving:
 
         for i in range(self.dataset):
             pass
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

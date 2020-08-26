@@ -38,62 +38,44 @@ class Dangerdriving:
             print('error: wrong dataset datetype')
             sys.exit()
 
-    def datatypecheck(self):
-
-
     def __init__(self, dataset, type):
         self.dataset = dataset
-
-        #데이터셋 데이터타입 확인
-        self.datatypecheck()
-
-        #데이터셋 데이터타입 변환
-        
-
-        #데이터셋 시간 datetime 체크
-        if (type(dataset[0]['time'])==0):
-            print('시간 데이터셋 타입은 datetime이여야 합니다.')
-
-        with open('vehicle_type.json') as json_file:
-            vehicle_type = json.load(json_file)
-
-        print(vehicle_type)
-
-        #운행 데이터셋
-        self.len = len(dataset)
-
-        #차량 타입
         self.type = type
 
-        #위험항목 저장 리스트
-        self.dangerlist = []
+        """데이터셋 데이터타입 확인 및 변환"""
+        self.datatypecheck()
+        self.dataset = self.dataset.to_dict('index')
+        self.len = len(dataset)
 
+        """차량 종류별 위험운행 기준값 로드"""
+        with open('vehicle_type.json') as json_file:
+            self.vehicle_type = json.load(json_file)
+
+        print(self.vehicle_type[self.type])
 
     def __gettimedifference(self, sp, ep):
+        """두 시간 사이의 차를 계산함"""
         timediff = (ep - sp).total_seconds()
 
         return timediff
 
 
-    '''
     def AC(self):
         s = 0
         outbool = False
 
         while s < self.len:
             #start point
-            sp = (self.dataset[s]['DRIVE_SPEED'], self.dataset[s]['time'])
+            sp = (self.dataset[s]['DRIVE_SPEED'], self.dataset[s]['RECORD_TIME'])
 
             e = s + 1
             if e == self.len: break
             #end point
-            ep = (self.dataset[e]['DRIVE_SPEED'], self.dataset[e]['time'])
-
+            ep = (self.dataset[e]['DRIVE_SPEED'], self.dataset[e]['RECORD_TIME'])
 
             diff = (ep[0]-sp[0]) / self.__gettimedifference(sp[1], ep[1])
-
-            if diff <= ""
-
+            if diff <= self.vehicle_type[self.type]['AC']:
+                pass
 
             s+=1
 
@@ -107,76 +89,76 @@ class Dangerdriving:
 
 
 
-    i = 0
-    j = 0
-    outbool = False
-    status = 'N'
+    def delete(self):
+        i = 0
+        j = 0
+        outbool = False
+        status = 'N'
 
-    while i < len(self.dict['RECORD_TIME']) - 1:
-        point_s = (self.dict['DRIVE_SPEED'][i], self.dict['RECORD_TIME'][i])
+        while i < len(self.dict['RECORD_TIME']) - 1:
+            point_s = (self.dict['DRIVE_SPEED'][i], self.dict['RECORD_TIME'][i])
 
-        if j >= len(self.dict['RECORD_TIME']) - 1: break
-        if i >= len(self.dict['RECORD_TIME']) - 2: break
+            if j >= len(self.dict['RECORD_TIME']) - 1: break
+            if i >= len(self.dict['RECORD_TIME']) - 2: break
 
-        j = i + 1
-        # print('i:', i, 'j:', j, '    147')
+            j = i + 1
+            # print('i:', i, 'j:', j, '    147')
 
-        while j <= len(self.dict['RECORD_TIME']) - 1:
+            while j <= len(self.dict['RECORD_TIME']) - 1:
 
-            point_e = (self.dict['DRIVE_SPEED'][j], self.dict['RECORD_TIME'][j])
+                point_e = (self.dict['DRIVE_SPEED'][j], self.dict['RECORD_TIME'][j])
 
-            try:
-                # 시간차이 = 0 -> 분모 = 0 -> error 발생
-                diff = (point_e[0] - point_s[0]) / self.__gettimedifference(point_e[1], point_s[1])
-            except:
-                j += 1
-                # print('i:',i,'j:',j, '    160')
-                continue
+                try:
+                    # 시간차이 = 0 -> 분모 = 0 -> error 발생
+                    diff = (point_e[0] - point_s[0]) / self.__gettimedifference(point_e[1], point_s[1])
+                except:
+                    j += 1
+                    # print('i:',i,'j:',j, '    160')
+                    continue
 
-            """위험운행 조건 시작"""
-            if diff <= -8:
-                # 감속 O
-                if point_e[0] >= 6:
-                    # 급감속
-                    status = 'D'
-                else:
-                    # 급정지
-                    status = 'S'
-            else:
-                # 감속 X
-                if diff >= 5:
-                    # 가속 O
-                    if point_s[0] >= 6:
-                        # 급가속 O
-                        status = 'A'
+                """위험운행 조건 시작"""
+                if diff <= -8:
+                    # 감속 O
+                    if point_e[0] >= 6:
+                        # 급감속
+                        status = 'D'
                     else:
-                        # 급가속 X
-                        if diff >= 6:
-                            # 급출발
-                            status = 'Q'
-                        else:
-                            # 상태 X
-                            outbool = True
+                        # 급정지
+                        status = 'S'
                 else:
-                    # 상태 X
-                    outbool = True
+                    # 감속 X
+                    if diff >= 5:
+                        # 가속 O
+                        if point_s[0] >= 6:
+                            # 급가속 O
+                            status = 'A'
+                        else:
+                            # 급가속 X
+                            if diff >= 6:
+                                # 급출발
+                                status = 'Q'
+                            else:
+                                # 상태 X
+                                outbool = True
+                    else:
+                        # 상태 X
+                        outbool = True
 
-            """위험운행 조건 끝"""
-            if outbool == True:
-                if status != 'N':
-                    """저장"""
-                    self.danger_list.append([i, j - 1, status])
-                """초기화"""
-                status = 'N'
-                i = j
-                # print('i:', i, 'j:', j,'    199')
-                outbool = False
-                break
+                """위험운행 조건 끝"""
+                if outbool == True:
+                    if status != 'N':
+                        """저장"""
+                        self.danger_list.append([i, j - 1, status])
+                    """초기화"""
+                    status = 'N'
+                    i = j
+                    # print('i:', i, 'j:', j,'    199')
+                    outbool = False
+                    break
 
-            """j값 증가 후 iter 반복"""
-            j += 1
-            # print('i:',i,'j:', j, '    205')
+                """j값 증가 후 iter 반복"""
+                j += 1
+                # print('i:',i,'j:', j, '    205')
 
-    return dangerlist
-    '''
+
 

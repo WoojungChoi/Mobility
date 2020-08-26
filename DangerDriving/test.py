@@ -38,3 +38,4 @@ if __name__ == "__main__":
     dataset = pd.DataFrame(loaddata_influxdb(database, measurement, time_s, time_e, car_id))
 
     example = Dangerdriving(dataset=dataset, type='TRUCK')
+    AC = example.AC()

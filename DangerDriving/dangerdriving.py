@@ -8,6 +8,9 @@
 """
 
 import pandas as pd
+import json
+import sys
+
 
 class dangerdriving:
     """
@@ -21,6 +24,8 @@ class dangerdriving:
     7)급회전 = ST(Sharp Turn)
     8)급유턴 = UT(U-Tern)
 
+    운행 데이터의 input 타입 정의
+
     etc.
     초당 회전각 60도 이상 예외처리
     속도 0이상에서 좌표값이 변경되지 않을 시 터널로 판정하여 예외처리
@@ -30,6 +35,18 @@ class dangerdriving:
     """vehicle type: TRUCK / BUS / TAXI"""
 
     def __init__(self, dataset, type):
+
+        #데이터셋 데이터타입 체크
+        if (type(dataset)== 0):
+            print('데이터셋이 올바르지 않습니다.')
+            sys.exit()
+
+        #데이터셋 시간 datetime 체크
+        if (type(dataset[0]['time'])==0):
+            print('시간 데이터셋 타입은 datetime이여야 합니다.')
+
+
+
         #운행 데이터셋
         self.dataset= dataset
         self.len = len(dataset)
@@ -40,6 +57,7 @@ class dangerdriving:
         #위험항목 저장 리스트
         self.dangerlist = []
 
+        '''
         if type == 'truck':
             AC = 5
             QS = 6
@@ -77,14 +95,39 @@ class dangerdriving:
             UT_TIME = 6
         else:
             print('잘못된 vehicle type 형식입니다.\n truck bus taxi 중에서 선택해주세요')
+        '''
+    def __gettimedifference(self, sp, ep):
+        timediff = (ep - sp).total_seconds()
+
+        return timediff
+
 
     def AC(self):
-        i = 0
-        j = 0
+        s = 0
         outbool = False
 
-        for i in range(self.dataset):
-            pass
+        while s < self.len:
+            #start point
+            sp = (self.dataset[s]['DRIVE_SPEED'], self.dataset[s]['time'])
+
+            e = s + 1
+            if e == self.len: break
+            #end point
+            ep = (self.dataset[e]['DRIVE_SPEED'], self.dataset[e]['time'])
+
+
+            diff = (ep[0]-sp[0]) / self.__gettimedifference(sp[1], ep[1])
+
+            if diff <= ""
+
+
+
+            s+=1
+
+
+
+
+
 
 
 

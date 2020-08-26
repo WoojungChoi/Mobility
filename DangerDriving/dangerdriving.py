@@ -11,8 +11,7 @@ import pandas as pd
 import json
 import sys
 
-
-class dangerdriving:
+class Dangerdriving:
     """
     8대 위험운전 항목
     1)급가속 = AC(Accelerate)
@@ -33,22 +32,34 @@ class dangerdriving:
     """
 
     """vehicle type: TRUCK / BUS / TAXI"""
+    def datatypecheck(self):
+        typecheck = type(self.dataset)
+        if str(typecheck) != '<class \'pandas.core.frame.DataFrame\'>':
+            print('error: wrong dataset datetype')
+            sys.exit()
+
+    def datatypecheck(self):
+
 
     def __init__(self, dataset, type):
+        self.dataset = dataset
 
-        #데이터셋 데이터타입 체크
-        if (type(dataset)== 0):
-            print('데이터셋이 올바르지 않습니다.')
-            sys.exit()
+        #데이터셋 데이터타입 확인
+        self.datatypecheck()
+
+        #데이터셋 데이터타입 변환
+        
 
         #데이터셋 시간 datetime 체크
         if (type(dataset[0]['time'])==0):
             print('시간 데이터셋 타입은 datetime이여야 합니다.')
 
+        with open('vehicle_type.json') as json_file:
+            vehicle_type = json.load(json_file)
 
+        print(vehicle_type)
 
         #운행 데이터셋
-        self.dataset= dataset
         self.len = len(dataset)
 
         #차량 타입
@@ -57,51 +68,14 @@ class dangerdriving:
         #위험항목 저장 리스트
         self.dangerlist = []
 
-        '''
-        if type == 'truck':
-            AC = 5
-            QS = 6
-            DC = 8
-            SS = 8
-            LC = 6
-            OT = 6
-            ST_SPEED = 20
-            ST_TIME = 4
-            UT_SPEED = 15
-            UT_TIME = 8
 
-        elif type == 'bus':
-            AC = 6
-            QS = 8
-            DC = 9
-            SS = 9
-            LC = 8
-            OT = 8
-            ST_SPEED = 25
-            ST_TIME = 4
-            UT_SPEED = 20
-            UT_TIME = 8
-
-        elif type == 'taxi':
-            AC = 8
-            QS = 10
-            DC = 14
-            SS = 14
-            LC = 10
-            OT = 10
-            ST_SPEED = 30
-            ST_TIME = 3
-            UT_SPEED = 25
-            UT_TIME = 6
-        else:
-            print('잘못된 vehicle type 형식입니다.\n truck bus taxi 중에서 선택해주세요')
-        '''
     def __gettimedifference(self, sp, ep):
         timediff = (ep - sp).total_seconds()
 
         return timediff
 
 
+    '''
     def AC(self):
         s = 0
         outbool = False
@@ -119,7 +93,6 @@ class dangerdriving:
             diff = (ep[0]-sp[0]) / self.__gettimedifference(sp[1], ep[1])
 
             if diff <= ""
-
 
 
             s+=1
@@ -205,3 +178,5 @@ class dangerdriving:
             # print('i:',i,'j:', j, '    205')
 
     return dangerlist
+    '''
+

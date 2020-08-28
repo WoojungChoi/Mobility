@@ -2,6 +2,6 @@
 
 국토교통부 교통안전공단에서는 위험운전행동 기준 11개를 제시했습니다.
 
-image/dangerchart.PNG
+![Image](image/dangerchart.PNG)
 
 이에 GPS기반의 시계열데이터를 통해 위험운전을 추출하는 알고리즘을 개발하여 공개합니다.
